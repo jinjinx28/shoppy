@@ -19,8 +19,6 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchProduct = async () => {
       const product = await axiosGet(`/products/${pid}`);
-      // const list = await res.json();
-      // const found = list.find(p => String(p.pid) === String(pid));
       setProduct(product);
     };
     fetchProduct();
@@ -35,7 +33,8 @@ export default function ProductDetail() {
       <div className="product-detail-top">
         <div className="product-detail-image-top">
           <img src={product.image} alt={product.name} />
-          <ImageList className="product-detail-image-top-list" imgList={imgList} />
+          <ImageList className="product-detail-image-top-list" 
+                    imgList={imgList} />
         </div>
         <ul className="product-detail-info-top">
           <li className="product-detail-title">{product.name}</li>

@@ -6,6 +6,17 @@ select * from member;
 select * from product;
 desc product;
 
-select pid,
+select  pid,
         concat('images/', image) as image
-from product;
+from product;        
+
+select  pid,
+		name,
+        price,
+        info,
+        rate,
+        concat('images/', image) as image,
+        img_list
+	from product where pid = 1;
+
+
