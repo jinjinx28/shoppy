@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import productsRouter from './routes/products.js'
 
 dotenv.config();
 
@@ -11,11 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 라우터 => 클라이언트 요청 직접 
-// app.get('./test', (req, res, next) => {});
-
-// 라우터 => 클라이언트 요청 처리 컨트롤러에 분배
-// app.get('./test', 컨트롤러.함수명);
+app.get('/product', );
 
 app.listen(PORT, () => {
     console.log(`서버실행 =>, ${PORT}`);
