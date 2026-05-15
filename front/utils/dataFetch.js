@@ -27,7 +27,5 @@ export const axiosData = async (url) => {
 export const axiosGet = async (path) => {
   const url =`http://localhost:9000${path}`;
   const res = await axios.get(url);
-  console.log(res.data);
-  
   return res.data;
 }

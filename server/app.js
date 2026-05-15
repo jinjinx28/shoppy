@@ -12,7 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/product', );
+// 라우팅 작업
+app.use('/products', productsRouter);
 
 app.listen(PORT, () => {
     console.log(`서버실행 =>, ${PORT}`);

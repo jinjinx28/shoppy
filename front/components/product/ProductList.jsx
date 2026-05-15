@@ -11,9 +11,9 @@ export default function ProductList() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axiosGet('/products'); //DB연동 로직 수정
-        const jsonData = await res.json();
-        setProductList(groupByRows(jsonData, number));
+        const products = await axiosGet('/products'); //DB연동 로직 수정
+        // const jsonData = await res.json();
+        setProductList(groupByRows(products, number));
       } catch (error) {
         console.error('상품 목록을 불러오는 중 오류 발생:', error);
       } finally {
@@ -22,6 +22,9 @@ export default function ProductList() {
     };
     fetchProducts();
   }, []);
+
+  console.log(productList);
+  
 
   if (isLoading) return <div>로딩 중...</div>;
 
