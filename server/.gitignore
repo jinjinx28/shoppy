@@ -1,0 +1,7 @@
+#환경파일
+.env
+
+#모듈
+node_modules
+
+
