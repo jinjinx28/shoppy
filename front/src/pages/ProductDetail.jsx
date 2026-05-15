@@ -9,16 +9,16 @@ import Review from '@/components/detailTabs/Review.jsx';
 import QnA from '@/components/detailTabs/QnA.jsx';
 import Return from '@/components/detailTabs/Return.jsx';
 import PurchaseActions from '@/components/product/PurchaseActions.jsx';
-import { axiosGet } from '../../utils/dataFetch';
+import { axiosGet } from '@/utils/dataFetch.js';
 
 export default function ProductDetail() {
   const { pid } = useParams();
   const [product, setProduct] = useState(null);
   const [tabName, setTabName] = useState('detail');
-
+  
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await axiosGet(`/products/${pid}`);
+      const product = await axiosGet(`/products/${pid}`);
       // const list = await res.json();
       // const found = list.find(p => String(p.pid) === String(pid));
       setProduct(product);
