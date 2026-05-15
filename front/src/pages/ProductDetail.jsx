@@ -9,6 +9,7 @@ import Review from '@/components/detailTabs/Review.jsx';
 import QnA from '@/components/detailTabs/QnA.jsx';
 import Return from '@/components/detailTabs/Return.jsx';
 import PurchaseActions from '@/components/product/PurchaseActions.jsx';
+import { axiosGet } from '../../utils/dataFetch';
 
 export default function ProductDetail() {
   const { pid } = useParams();
@@ -17,10 +18,10 @@ export default function ProductDetail() {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await fetch('/data/products.json');
-      const list = await res.json();
-      const found = list.find(p => String(p.pid) === String(pid));
-      setProduct(found ?? null);
+      const res = await axiosGet(`/products/${pid}`);
+      // const list = await res.json();
+      // const found = list.find(p => String(p.pid) === String(pid));
+      setProduct(product);
     };
     fetchProduct();
   }, [pid]);

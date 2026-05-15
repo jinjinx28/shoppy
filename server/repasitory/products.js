@@ -5,16 +5,9 @@ import pool from '../db/connection.js';
 export const getAll = async () => {
     const sql = `
         select pid,
-                name, 
-                price,
-                info,
-                rate,
-                image,
-                img_list
+            concat('images/', image) as image
         from product;
     `;
     const [results] = await pool.execute(sql, []);
-    console.log(results);
-    
     return results;
 }

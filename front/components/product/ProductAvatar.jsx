@@ -3,7 +3,7 @@ console.log('img => ', img);
 
     return (
         <div className='product-avata'>
-            <img src={`images/${img} `} alt="product-image" />
+            <img src={img} alt="product-image" />
         </div>
     );
 }
