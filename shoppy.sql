@@ -32,3 +32,22 @@ show tables;
 select * from product_detailinfo;
 
 --
+select * from member;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

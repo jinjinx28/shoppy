@@ -22,7 +22,11 @@ export default function Signup() {
     if (!form.id) { setErrors(p => ({ ...p, id: '아이디를 입력해주세요' })); return; }
     if (!form.pwd) { setErrors(p => ({ ...p, pwd: '비밀번호를 입력해주세요' })); return; }
     if (form.pwd !== form.cpwd) { setErrors(p => ({ ...p, cpwd: '비밀번호가 일치하지 않습니다' })); return; }
-    alert('회원가입 성공!!');
+
+    // DB 연동 로직
+    console.log('form ==>', form);
+    
+
     navigate('/login');
   };
 
@@ -38,7 +42,12 @@ export default function Signup() {
               <label htmlFor="id"><b>아이디</b></label>
               {errors.id && <span style={{ color: 'red', fontSize: '0.8rem' }}>{errors.id}</span>}
               <div>
-                <input type="text" id="id" name="id" value={form.id} onChange={handleChangeForm} placeholder="아이디 입력(6~20자)" />
+                <input type="text" 
+                        id="id" 
+                        name="id" 
+                        value={form.id} 
+                        onChange={handleChangeForm} 
+                        placeholder="아이디 입력(6~20자)" />
                 <button type="button" onClick={handleIdCheck}> 중복확인</button>
               </div>
             </li>
