@@ -11,17 +11,24 @@ select  pid,
         concat('images/', image) as image
 from product;        
 
--- product + product_detailinfo 테이블 조인 
+-- product + product_detailinfo 테이블 조인
 select  p.pid,
 		p.name,
-        p.price,
-        p.info,
-        p.rate,
-        concat('images/', p.image) as image,
-        p.img_list as imgList,
-        json_object(pd.title_en, pd.title_ko, pd.list) as detail_info
+		p.price,
+		p.info,
+		p.rate,
+		concat('/images/', p.image) as image,
+		p.img_list as imgList,
+        json_object(
+			"title_en", pd.title_en,  
+			"title_ko", pd.title_ko,
+			"list", pd.list
+		) as detailInfo
 	from product p, product_detailinfo pd
     where p.pid = pd.pid and p.pid = 1;
+        
 
 show tables;
 select * from product_detailinfo;
+
+--

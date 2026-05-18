@@ -28,8 +28,6 @@ export default function ProductDetail() {
 
   const imgList = product.imgList ?? [];
 
-  console.log(product);
-  
   return (
     <div className="content">
       <div className="product-detail-top">
@@ -63,7 +61,9 @@ export default function ProductDetail() {
       <div className="product-detail-tab">
         <Tabs currentTab={tabName} onTabChange={setTabName} />
         <div className="tabs_contents">
-          {tabName === 'detail' && <Detail imgList={imgList} pid={pid} detailInfo={product.detailInfo} />}
+          {tabName === 'detail' && <Detail  imgList={imgList} 
+                                            pid={pid} 
+                                            detailInfo={product.detailInfo} />}
           {tabName === 'review' && <Review />}
           {tabName === 'qna' && <QnA pid={pid} />}
           {tabName === 'return' && <Return />}
