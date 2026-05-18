@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {axiosPost} from '../../utils/dataFetch.js';
 
 const initForm = (keys) => keys.reduce((acc, k) => ({ ...acc, [k]: '' }), {});
 
@@ -24,10 +25,10 @@ export default function Signup() {
     if (form.pwd !== form.cpwd) { setErrors(p => ({ ...p, cpwd: '비밀번호가 일치하지 않습니다' })); return; }
 
     // DB 연동 로직
-    console.log('form ==>', form);
+    const result = await axiosPost('/signup', form);
     
 
-    navigate('/login');
+    // navigate('/login');
   };
 
   const handleIdCheck = () => alert(`"${form.id}" 사용 가능한 아이디입니다.`);

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import productsRouter from './routes/products.js';
 import returnRouter from './routes/return.js';
+import signupRouter from './routes/signup.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 //라우팅 작업
 app.use('/products', productsRouter);
 app.use('/return', returnRouter);
+app.use('/signup', signupRouter)
 
 
 app.listen(PORT, () => {
