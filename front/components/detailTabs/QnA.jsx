@@ -14,8 +14,6 @@ export default function QnA({ pid }) {
     fetchQna();
   }, [pid]);
 
-  console.log(qnaData);
-  
 
   return (
     <div>
