@@ -28,6 +28,8 @@ export default function ProductDetail() {
 
   const imgList = product.imgList ?? [];
 
+  console.log(product);
+  
   return (
     <div className="content">
       <div className="product-detail-top">

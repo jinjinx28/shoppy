@@ -21,6 +21,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 import { StarRating } from '@/components/commons/StarRating.jsx';
 import { ImageList } from '@/components/commons/ImageList.jsx';
@@ -38,9 +39,8 @@ export default function Review() {
         const fetchReviewData = async () => {
             try {
                 setIsLoading(true);
-                // JSON 파일 혹은 API 호출
-                const data = await axiosData("/data/productReview.json");
-                setReviewData(data);
+                const response = await axios.get("/products/review"); 
+                setReviewData(response.data); 
             } catch (error) {
                 console.error("리뷰 데이터를 불러오는 중 에러 발생:", error);
             } finally {

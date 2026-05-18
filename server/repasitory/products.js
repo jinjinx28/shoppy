@@ -5,14 +5,21 @@ import pool from '../db/connection.js';
  */
 export const getProduct = async(pid) => {
     const sql = `
-        select  pid,
-            name,
-            price,
-            info,
-            rate,
-            concat('/images/', image) as image,
-            img_list as imgList
-        from product where pid = ?
+        select  p.pid,
+            p.name,
+            p.price,
+            p.info,
+            p.rate,
+            concat('images/', p.image) as image,
+            p.img_list as imgList,
+            json_object(
+                "title_en", pd.title_en, 
+                "title_ko", pd.title_ko, 
+                "list", pd.list
+                ) as detailinfo
+        from product p, product_detailinfo pd
+        where p.pid = pd.pid and p.pid = ?
+
     `;
     const [result] = await pool.execute(sql, [pid]);
     return result[0];   
