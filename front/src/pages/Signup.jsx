@@ -1,11 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { axiosPost } from '../../utils/dataFetch.js';
+import { axiosPost, axiosGet } from '../../utils/dataFetch.js';
 
 const initForm = (keys) => keys.reduce((acc, k) => ({ ...acc, [k]: '' }), {});
 
 export default function Signup() {
   const navigate = useNavigate();
+  const idRef = useRef(null);
   const initArray = ['id', 'pwd', 'cpwd', 'name', 'phone', 'emailName', 'emailDomain'];
   const [form, setForm] = useState(initForm(initArray));
   const [errors, setErrors] = useState(initForm(initArray));
@@ -34,7 +35,21 @@ export default function Signup() {
     }
   };
 
-  const handleIdCheck = () => alert(`"${form.id}" 사용 가능한 아이디입니다.`);
+  const handleIdCheck = async () => {
+    // 1. id 유효성 체크
+    if(idRef.current.value === '') {
+      alert('아이디를 입력해주세요');
+      idRef.current.focus();
+      return false;
+    } else {
+       // 2. 서버에 id 전송
+       const id = form.id;
+       const result = await axiosPost('/member/idCheck', {"id" : id});
+      console.log(result);
+      
+    }
+   
+  }
 
   return (
     <div className="content">
@@ -49,6 +64,7 @@ export default function Signup() {
                 <input  type="text" 
                         id="id" name="id" 
                         value={form.id} 
+                        ref = {idRef}
                         onChange={handleChangeForm} 
                         placeholder="아이디 입력(6~20자)" />
                 <button type="button" onClick={handleIdCheck}> 중복확인</button>
