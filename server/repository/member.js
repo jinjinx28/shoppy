@@ -1,6 +1,18 @@
 import pool from '../db/connection.js';
 
-/* 아이디 중복 체크 */
+/**
+ * 패스워드 조회
+ */
+export const getPassword = async(id) => {
+    const sql = ` select pwd from member where id = ?`;
+    const [rows] = await pool.execute(sql, [id]);
+    return rows[0].pwd;
+}
+
+
+/**
+ * 아이디 중복 체크
+ */
 export const getIdCheck = async(id) => {
     const sql = `
         select count(id) as isFind 
@@ -10,7 +22,9 @@ export const getIdCheck = async(id) => {
     return rows[0];
 }
 
-/* 회원가입 */
+/**
+ * 회원 가입
+ */
 export const getSignup = async(member) => {
     const {id, pwdHash, name, phone, email} = member;
     const sql = `
