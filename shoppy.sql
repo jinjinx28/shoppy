@@ -34,6 +34,20 @@ select * from product_detailinfo;
 --
 select * from member;
 
+use shoppy;
+select database();
+show tables;
+
+select * from member;
+select count(id) as isFind from member where id = 'nyong'; 
+
+DELETE FROM member WHERE id = 'nyong';
+DELETE FROM member WHERE id = 'jinjin';
+
+-- 사용 불가 (pwd - Hash 사용) : select count(*) from member where id = 'test' and pwd = '1234';
+select pwd from member where id = 'test';
+
+
 
 
 
