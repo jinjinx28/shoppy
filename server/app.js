@@ -18,8 +18,8 @@ app.use(express.json());
 //라우팅 작업
 app.use('/products', productsRouter);
 app.use('/return', returnRouter);
-app.use('/member', memberRouter)
-app.use('/signup', signupRouter)
+app.use('/member', memberRouter);
+app.use('/signup', signupRouter);
 
 
 app.listen(PORT, () => {

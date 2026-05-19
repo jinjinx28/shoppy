@@ -44,7 +44,7 @@ export default function Signup() {
     } else {
        // 2. 서버에 id 전송
        const id = form.id;
-       const result = await axiosPost('/member/idCheck', {"id" : id});
+       const result = await axiosPost('/member/idCheck', {"id" : form.id.trim()});
       console.log(result);
       
     }

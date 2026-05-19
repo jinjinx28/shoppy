@@ -5,4 +5,5 @@ const router = express.Router();
 
 router.post('/idCheck', controller.getIdCheck);
 
+
 export default router;
