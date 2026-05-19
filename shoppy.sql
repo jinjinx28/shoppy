@@ -47,6 +47,17 @@ DELETE FROM member WHERE id = 'jinjin';
 -- 사용 불가 (pwd - Hash 사용) : select count(*) from member where id = 'test' and pwd = '1234';
 select pwd from member where id = 'test';
 
+show tables;
+desc cart;
+select * from cart;
+select * from member;
+select * from product;
+select * from view_cartlist;
+select * from support;
+
+
+-- 어떤 고객이 어떤 상품을 몇 개 구매했는가?alter
+
 
 
 
