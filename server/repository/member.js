@@ -9,3 +9,15 @@ export const getIdCheck = async(id) => {
     const [rows] = await pool.execute(sql, [id]); // rows = [ {"isFind": 1} ]
     return rows[0];
 }
+
+/* 회원가입 */
+export const getSignup = async(member) => {
+    const {id, pwdHash, name, phone, email} = member;
+    const sql = `
+        insert into member(id, pwd, name, phone, email, mdate)
+                    values(?, ?, ?, ?, ?, curdate())
+    `;
+
+    const [rows] = await pool.execute(sql, [id, pwdHash, name, phone, email]);
+    return rows.affectedRows;
+}

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { axiosPost, axiosGet } from '../../utils/dataFetch.js';
+import { axiosPost } from '../../utils/dataFetch.js';
 
 const initForm = (keys) => keys.reduce((acc, k) => ({ ...acc, [k]: '' }), {});
 
@@ -28,27 +28,30 @@ export default function Signup() {
     
     
     try {
-      const result = await axiosPost('/signup', form);   
+      const result = await axiosPost('/member/signup', form);   
       if(result.isSignup) navigate('/login');      
     } catch (error) {
       console.log('Signup Error ::', error);      
     }
   };
 
-  const handleIdCheck = async () => {
-    // 1. id 유효성 체크
+  const handleIdCheck = async() => {
+    //1. id 유효성 체크
     if(idRef.current.value === '') {
       alert('아이디를 입력해주세요');
       idRef.current.focus();
-      return false;
+      return false;      
     } else {
-       // 2. 서버에 id 전송
-       const id = form.id;
-       const result = await axiosPost('/member/idCheck', {"id" : form.id.trim()});
-      console.log(result);
-      
+      //2. 서버에 id 전송 
+      const result = await axiosPost('/member/idCheck', {"id": form.id.trim()}); 
+      if(result.isFind) {
+        alert('이미 사용중인 아이디 입니다. 다시 입력해주세요');
+        idRef.current.focus();
+      } else {
+        alert('사용이 가능한 아이디 입니다.');
+        //패스워드 입력 위치로 포커스 이동
+      }
     }
-   
   }
 
   return (
@@ -64,9 +67,10 @@ export default function Signup() {
                 <input  type="text" 
                         id="id" name="id" 
                         value={form.id} 
-                        ref = {idRef}
+                        ref={idRef}
                         onChange={handleChangeForm} 
-                        placeholder="아이디 입력(6~20자)" />
+                        placeholder="아이디 입력(6~20자)"
+                        />
                 <button type="button" onClick={handleIdCheck}> 중복확인</button>
               </div>
             </li>

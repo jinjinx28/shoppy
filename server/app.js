@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import productsRouter from './routes/products.js';
 import returnRouter from './routes/return.js';
 import memberRouter from './routes/member.js';
-import signupRouter from './routes/signup.js';
 
 dotenv.config();
 
@@ -19,7 +18,6 @@ app.use(express.json());
 app.use('/products', productsRouter);
 app.use('/return', returnRouter);
 app.use('/member', memberRouter);
-app.use('/signup', signupRouter);
 
 
 app.listen(PORT, () => {
