@@ -32,31 +32,74 @@ show tables;
 select * from product_detailinfo;
 
 --
-select * from member;
+select * from product_qna where pid = 1;
+desc product_qna;
 
+
+select 	qid,
+		title,
+        content,
+		is_complete as isComplete,
+        is_lock as isLock,
+        id,
+        pid,
+        cdate
+from product_qna
+where pid = 1;
+
+
+-- 
+desc product_return;
+select   rid,
+		title,
+        description,
+        list
+from product_return;
+
+--
+select * from member;
+desc member;
+
+select curdate() from dual;
+
+--
 use shoppy;
 select database();
 show tables;
-
-select * from member;
-select count(id) as isFind from member where id = 'nyong'; 
-
-DELETE FROM member WHERE id = 'nyong';
-DELETE FROM member WHERE id = 'jinjin';
-
--- 사용 불가 (pwd - Hash 사용) : select count(*) from member where id = 'test' and pwd = '1234';
-select pwd from member where id = 'test';
-
-show tables;
-desc cart;
 select * from cart;
-select * from member;
-select * from product;
-select * from view_cartlist;
-select * from support;
+select cid from cart
+	where pid = 1 and id = 'test00' and size= 'XS';
+
+desc cart;    
+
+select sum(qty) as qty from cart where id ='test00';
+show tables;
+
+select * from view_cartlist where id='test00';
+select * from information_schema.views 
+	where table_schema = 'shoppy';
+
+select  `m`.`id` AS `id`,
+		`m`.`name` AS `mname`,
+        `m`.`phone` AS `phone`,
+        `m`.`email` AS `email`,
+        `p`.`pid` AS `pid`,
+        `p`.`name` AS `name`,
+        `p`.`info` AS `info`,
+        `p`.`image` AS `image`,
+        `p`.`price` AS `price`,
+        `c`.`size` AS `size`,
+        `c`.`qty` AS `qty`,
+        `c`.`cid` AS `cid`,
+        `t`.`total_price` AS `total_price` 
+        from (((`shoppy`.`member` `m` join `shoppy`.`product` `p`) 
+				join `shoppy`.`cart` `c`) 
+                join (select `c`.`id` AS `id`,sum((`c`.`qty` * `p`.`price`)) AS `total_price` from (`shoppy`.`cart` `c` join `shoppy`.`product` `p` on((`c`.`pid` = `p`.`pid`))) group by `c`.`id`) `t`) where ((`m`.`id` = `c`.`id`) and (`p`.`pid` = `c`.`pid`) and (`c`.`id` = `t`.`id`))
 
 
--- 어떤 고객이 어떤 상품을 몇 개 구매했는가?alter
+
+
+
 
 
 
