@@ -6,5 +6,6 @@ const router = express.Router();
 router.post('/add', controller.getAdd);
 router.post('/count', controller.getCount);
 router.post('/list', controller.getList);
+router.put('/qty', controller.getQtyUpdate);
 
 export default router;

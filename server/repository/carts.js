@@ -23,11 +23,12 @@ export const getCount = async(userId) => {
 }
 
 /**
- * cartItem 수량 업데이트
+ * cartItem 수량 업데이트 - 장바구니 추가, 장바구니 리스트 수량 업데이트
  */
-export const getQtyUpdate = async(cid) => {
+export const getQtyUpdate = async(cid, type) => {
+    const param = type === '-'? 'qty - 1' : 'qty + 1';    
     const sql = ` update cart
-                    set qty = qty + 1
+                    set qty = ${param}
                     where cid = ?
     `;
     const [rows] = await pool.execute(sql, [cid]);

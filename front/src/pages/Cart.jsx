@@ -3,13 +3,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { useAuthStore } from '@/store/authStore.js';
 import { cartItemsCheck, updateCartItemsQty, getTotalPrice, cartItemsAddInfo } from '@/utils/cart.js';
-import { axiosPost } from '@/utils/dataFetch.js';
+import { axiosPost, axiosPut } from '@/utils/dataFetch.js';
 
 export default function Cart() {
   const navigate = useNavigate();
   const [cartList, setCartList] = useState([]);
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isUpdate, setIsUpdate] = useState(false);
   const cartItems = useAuthStore((s) => s.cartItems);
   const setCartCount = useAuthStore((s) => s.setCartCount);
   const userId = useAuthStore((s) => s.userId);
@@ -18,18 +19,19 @@ export default function Cart() {
     const fetchProducts = async () => {
       const list = await axiosPost('/carts/list', {"userId": userId});
       setCartList(list);
-      setTotalPrice(list && list.length > 0 ? list[0].total_price : 0);
-      // setProducts(list);
-      // const enriched = cartItemsAddInfo(list, cartItems);
-      // setTotalPrice(getTotalPrice(list, cartItems));
+      setTotalPrice(list[0].total_price);
     };
     fetchProducts();
-  }, [cartItems, userId]);
+  }, [isUpdate]);
 
-  const handleUpdateQty = (cid, type) => {
-    const updated = updateCartItemsQty(cartItems, cid, type);
-    useAuthStore.getState().setCartItems(updated);
-    setCartCount(updated.reduce((sum, i) => sum + i.qty, 0));
+  const handleUpdateQty = async(cid, type) => {
+    const result = await axiosPut("/carts/qty", {cid, type});  //{cid:cid, ..}
+    if(result.isUpdate) {
+      setIsUpdate(!isUpdate);
+    }
+    // const updated = updateCartItemsQty(cartItems, cid, type);
+    // useAuthStore.getState().setCartItems(updated);
+    // setCartCount(updated.reduce((sum, i) => sum + i.qty, 0));
   };
 
   const handleDeleteItem = (cid) => {

@@ -34,3 +34,9 @@ export const axiosPost = async(path, data) => {
   const res = await axios.post(url, data);
   return res.data;
 }
+
+export const axiosPut = async(path, data) => {
+  const url = `http://localhost:9000${path}`;  //body
+  const res = await axios.put(url, data);
+  return res.data;
+}
