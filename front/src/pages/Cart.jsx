@@ -18,13 +18,13 @@ export default function Cart() {
     const fetchProducts = async () => {
       const list = await axiosPost('/carts/list', {"userId": userId});
       setCartList(list);
-      setTotalPrice(list[0].total_price);
+      setTotalPrice(list && list.length > 0 ? list[0].total_price : 0);
       // setProducts(list);
       // const enriched = cartItemsAddInfo(list, cartItems);
       // setTotalPrice(getTotalPrice(list, cartItems));
     };
     fetchProducts();
-  }, [cartItems]);
+  }, [cartItems, userId]);
 
   const handleUpdateQty = (cid, type) => {
     const updated = updateCartItemsQty(cartItems, cid, type);
