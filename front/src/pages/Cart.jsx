@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { useAuthStore } from '@/store/authStore.js';
 import { cartItemsCheck, updateCartItemsQty, getTotalPrice, cartItemsAddInfo } from '@/utils/cart.js';
-import { axiosPost, axiosPut } from '@/utils/dataFetch.js';
+import { axiosPost, axiosPut, axiosDelete } from '@/utils/dataFetch.js';
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -13,12 +13,15 @@ export default function Cart() {
   const [isUpdate, setIsUpdate] = useState(false);
   const cartItems = useAuthStore((s) => s.cartItems);
   const setCartCount = useAuthStore((s) => s.setCartCount);
+  const setIsUpdateFlag = useAuthStore((s) => s.setIsUpdateFlag);
   const userId = useAuthStore((s) => s.userId);
+  const setCartListStore = useAuthStore((s) => s.setCartList);
 
   useEffect(() => {
     const fetchProducts = async () => {
       const list = await axiosPost('/carts/list', {"userId": userId});
       setCartList(list);
+      setCartListStore(list);
       setTotalPrice(list[0].total_price);
     };
     fetchProducts();
@@ -27,17 +30,17 @@ export default function Cart() {
   const handleUpdateQty = async(cid, type) => {
     const result = await axiosPut("/carts/qty", {cid, type});  //{cid:cid, ..}
     if(result.isUpdate) {
-      setIsUpdate(!isUpdate);
+      setIsUpdate(!isUpdate);  //장바구니 리스트 재호출
+      setIsUpdateFlag();      //장바구니 카운트 재호출 -> useAuthStore -> Header
     }
-    // const updated = updateCartItemsQty(cartItems, cid, type);
-    // useAuthStore.getState().setCartItems(updated);
-    // setCartCount(updated.reduce((sum, i) => sum + i.qty, 0));
   };
 
-  const handleDeleteItem = (cid) => {
-    const updated = cartItems.filter(item => item.cid !== cid);
-    useAuthStore.getState().setCartItems(updated);
-    setCartCount(updated.reduce((sum, i) => sum + i.qty, 0));
+  const handleDeleteItem = async(cid) => {
+    const result = await axiosDelete("/carts/del", {cid});
+    if(result.isDelete) {
+      setIsUpdate(!isUpdate);  //장바구니 리스트 재호출
+      setIsUpdateFlag();      //장바구니 카운트 재호출 -> useAuthStore -> Header
+    }
   };
 
   return (

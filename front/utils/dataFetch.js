@@ -30,13 +30,22 @@ export const axiosGet = async(path) => {
 }
 
 export const axiosPost = async(path, data) => {
-  const url = `http://localhost:9000${path}`;  //body
+  const url = `http://localhost:9000${path}`;  
   const res = await axios.post(url, data);
   return res.data;
 }
 
 export const axiosPut = async(path, data) => {
-  const url = `http://localhost:9000${path}`;  //body
+  const url = `http://localhost:9000${path}`;  
   const res = await axios.put(url, data);
+  return res.data;
+}
+
+export const axiosDelete = async(path, data) => {
+  const url = `http://localhost:9000${path}`;  
+
+  //get, delete -> config 객체에 담아서 전송
+  //✨data 속성으로 전달 시 body로 전송
+  const res = await axios.delete(url, {"data" : data});   
   return res.data;
 }

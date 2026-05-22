@@ -1,6 +1,18 @@
 import pool from '../db/connection.js';
 
 /**
+ * 장바구니 아이템 삭제
+ */
+export const getDelete = async(cid) => {
+    const sql = `
+        delete from cart where cid = ?
+    `;
+    const [rows] = await pool.execute(sql, [cid]);
+    return rows;  
+}
+
+
+/**
  * 고객별 장바구니 리스트 조회
  */
 export const getList = async(userId) => {
@@ -16,7 +28,6 @@ export const getList = async(userId) => {
  * 고객별 qty 조회
  */
 export const getCount = async(userId) => {
-    console.log('userId', userId);
     const sql = `select sum(qty) as count from cart where id = ?`;
     const [rows] = await pool.execute(sql, [userId]);
     return rows[0]; // {count: 21}
