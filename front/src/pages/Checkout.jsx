@@ -1,9 +1,14 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useAuthStore } from '@/store/authStore.js';
 import { cartItemsAddInfo, getTotalPrice } from '@/utils/cart.js';
+import {v4 as uuidv4} from 'uuid';
+import {axiosPost} from '@/utils/dataFetch.js';
 
 export default function Checkout() {
   const cartList = useAuthStore((s) => s.cartList);
+  const userId = useAuthStore((s) => s.userId);
+  const cartCount = useAuthStore((s) => s.cartCount);
+
   const [totalPrice, setTotalPrice] = useState(cartList[0].total_price);
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
@@ -25,12 +30,29 @@ export default function Checkout() {
   //   fetchProducts();
   // }, [cartItems]);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (!terms || !privacy) {
       alert('필수 약관에 모두 동의해야 결제가 가능합니다.');
       return;
     }
-    alert('결제 기능은 준비 중입니다.');
+    // 카카오페이 결제 준비 호출
+    // orderId, userId, quantity, totalAmount
+    // orderId - uuid 패키지 설치 및 사용
+    try{
+      const orderId = uuidv4();
+      const itemName = cartList.length > 1 ? cartList[0].name + '등 ...' : cartList[0].name;
+      const quantity = cartCount;
+      const totalAmount = totalPrice;
+      const orderData = {orderId, userId,itemName, quantity, totalAmount};
+
+      const result = await axiosPost('/kakao/ready', orderData);
+      console.log('result -->>', result);
+      
+    } catch(error) {
+      console.log('/kakao/ready :: error -->>', error);
+      
+    }
+
   };
 
   return (
