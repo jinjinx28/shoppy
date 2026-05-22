@@ -13,7 +13,7 @@ export default function Checkout() {
   const [qrUrl, setQrUrl] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const [totalPrice, setTotalPrice] = useState(cartList[0]?.total_price || 0);
+  const [totalPrice, setTotalPrice] = useState(cartList[0].total_price);
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [payment, setPayment] = useState('kakao');
@@ -56,6 +56,11 @@ export default function Checkout() {
       if(tid) {
         setQrUrl(next_redirect_mobile_url);
         setShowModal(true);
+
+        //15초후 QR false로 수정 => 사설IP 이슈
+        setTimeout(() => {
+          setShowModal(false);
+        }, 15000);
       }
       
     } catch(error) {
@@ -144,7 +149,6 @@ export default function Checkout() {
           />
         )      
       }
-
 
 
     </div>
