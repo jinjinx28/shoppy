@@ -13,7 +13,7 @@ export default function Checkout() {
   const [qrUrl, setQrUrl] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const [totalPrice, setTotalPrice] = useState(cartList[0].total_price);
+  const [totalPrice, setTotalPrice] = useState(cartList[0]?.total_price || 0);
   const [terms, setTerms] = useState(false);
   const [privacy, setPrivacy] = useState(false);
   const [payment, setPayment] = useState('kakao');
@@ -45,7 +45,7 @@ export default function Checkout() {
     //orderId - uuid 패키지 설치 및 사용
     try{
       const orderId = uuidv4();    
-      const itemName = cartList.length > 1 ? cartList[0].name + '등...' : cartList[0].name; 
+      const itemName = cartList.length > 1 ? `${cartList[0]?.name} 외 ${cartList.length - 1}건` : (cartList[0]?.name || '주문 상품');
       const quantity = cartCount;
       const totalAmount = totalPrice;
       const orderData = { orderId, userId, itemName, quantity, totalAmount };
