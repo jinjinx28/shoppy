@@ -1,13 +1,17 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useAuthStore } from '@/store/authStore.js';
 import { cartItemsAddInfo, getTotalPrice } from '@/utils/cart.js';
-import {v4 as uuidv4} from 'uuid';
-import {axiosPost} from '@/utils/dataFetch.js';
+import { v4 as uuidv4} from 'uuid';
+import { axiosPost } from '@/utils/dataFetch.js';
+import QRModal from '../../components/commons/QRModal.jsx';
 
 export default function Checkout() {
   const cartList = useAuthStore((s) => s.cartList);
   const userId = useAuthStore((s) => s.userId);
   const cartCount = useAuthStore((s) => s.cartCount);
+
+  const [qrUrl, setQrUrl] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const [totalPrice, setTotalPrice] = useState(cartList[0].total_price);
   const [terms, setTerms] = useState(false);
@@ -30,29 +34,29 @@ export default function Checkout() {
   //   fetchProducts();
   // }, [cartItems]);
 
-  const handlePayment = async () => {
+  const handlePayment = async() => {
     if (!terms || !privacy) {
       alert('필수 약관에 모두 동의해야 결제가 가능합니다.');
       return;
     }
-    // 카카오페이 결제 준비 호출
-    // orderId, userId, quantity, totalAmount
-    // orderId - uuid 패키지 설치 및 사용
+    
+    //카카오페이 결제 준비 호출
+    //orderId, userId, itemName, quantity, totalAmount
+    //orderId - uuid 패키지 설치 및 사용
     try{
-      const orderId = uuidv4();
-      const itemName = cartList.length > 1 ? cartList[0].name + '등 ...' : cartList[0].name;
+      const orderId = uuidv4();    
+      const itemName = cartList.length > 1 ? cartList[0].name + '등...' : cartList[0].name; 
       const quantity = cartCount;
       const totalAmount = totalPrice;
-      const orderData = {orderId, userId,itemName, quantity, totalAmount};
+      const orderData = { orderId, userId, itemName, quantity, totalAmount };
 
       const result = await axiosPost('/kakao/ready', orderData);
-      console.log('result -->>', result);
+      const { tid, qrURL } = result;
+      setQrUrl(qrURL);
       
     } catch(error) {
-      console.log('/kakao/ready :: error -->>', error);
-      
+      console.log('/kakao/ready :: error -->', error);      
     }
-
   };
 
   return (
@@ -126,6 +130,19 @@ export default function Checkout() {
         <label htmlFor="privacy"> 개인정보 국외 이전 동의</label>
       </div>
       <button className="pay-button" onClick={handlePayment}>결제하기</button>
+
+      { showModal &&
+        (
+          <QRModal 
+            qrUrl = {qrUrl} 
+            amount = {totalPrice} 
+            onClose = {() => setShowModal(false)}
+          />
+        )      
+      }
+
+
+
     </div>
   );
 }
