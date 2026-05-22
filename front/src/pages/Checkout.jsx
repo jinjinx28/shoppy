@@ -45,14 +45,18 @@ export default function Checkout() {
     //orderId - uuid 패키지 설치 및 사용
     try{
       const orderId = uuidv4();    
-      const itemName = cartList.length > 1 ? `${cartList[0]?.name} 외 ${cartList.length - 1}건` : (cartList[0]?.name || '주문 상품');
+      const itemName = cartList.length > 1 ? cartList[0].name + '등...' : cartList[0].name; 
       const quantity = cartCount;
       const totalAmount = totalPrice;
       const orderData = { orderId, userId, itemName, quantity, totalAmount };
 
       const result = await axiosPost('/kakao/ready', orderData);
-      const { tid, qrURL } = result;
-      setQrUrl(qrURL);
+      const { tid, next_redirect_mobile_url} = result;
+      
+      if(tid) {
+        setQrUrl(next_redirect_mobile_url);
+        setShowModal(true);
+      }
       
     } catch(error) {
       console.log('/kakao/ready :: error -->', error);      
