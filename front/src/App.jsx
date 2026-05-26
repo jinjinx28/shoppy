@@ -81,11 +81,27 @@ export default function App() {
               </PrivateRoute>
             }
           />
-          <Route path="checkout" element={<Checkout />} />
+          <Route
+            path="checkout"
+            element={
+              <PrivateRoute>
+                <Checkout />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="support"
+            element={
+              <PrivateRoute>
+                <Support />
+              </PrivateRoute>
+            }
+          />
+          {/*Route path="checkout" element={<Checout />} />*/}
           <Route path="payresult" element={<PayResult />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="support" element={<Support />} />
+          {/*<Route path="support" element={<Support />} />*/}
         </Route>
       </Routes>
     </BrowserRouter>
