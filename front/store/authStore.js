@@ -5,9 +5,9 @@ export const useAuthStore = create((set) => ({
   role: null,
   accessToken: null,
   isLogin: false,
-  authChecked: true,      // DB 없으므로 즉시 true
+  authChecked: false,      
   cartCount: 0,
-  cartList: [],          // 장바구니 리스트 공유 - Cart, Checkout 컴포넌트
+  cartList: [],           // 장바구니 리스트 공유 - Cart, Checkout 컴포넌트
   isUpdateFlag: false,    // 장바구니 리스트 수량 변경
 
   login: ({ userId, role, accessToken, isLogin }) =>
